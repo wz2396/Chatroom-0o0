@@ -1,14 +1,10 @@
 <message>
 
 	<span>{ msg.message }</span>
-	<span>{ msg.name }<span>
-	<span>{ msg.gender }<span>
-	<span>{ msg.time }<span>
-	<
 
 	<script>
 		var that = this;
-		console.log('message.tag','name.tag','gender.tag','time.tag');
+		console.log('message.tag');
 	</script>
 
 	<style>
