@@ -1,13 +1,21 @@
 <app>
 
-	<h1>Welcome to MSTU Chat! [with Firebase]</h1>
-	<a href="../noFirebase">See Non-Firebase Version</a><br><br>
+	<h1>Welcome to Date Chat!</h1>
 
 	<div class="chatLog" ref="chatLog">
 		<!-- Messages go here: -->
 		<message each={ msg in chatLog }></message>
 	</div>
-
+  <input type="text" ref="nameInput" onkeypress={ sendMsg } placeholder="Enter Name">
+		<div>
+			<label>
+				Male
+				<input type="radio" name="genderInput" value="male">
+			</label>
+			<label>
+				Female
+				<input type="radio" name="genderInput" value="female">
+	</div>
 	<input type="text" ref="messageInput" onkeypress={ sendMsg } placeholder="Enter Message">
 	<button type="button" onclick={ sendMsg }>SEND</button>
 
@@ -22,8 +30,8 @@
 
 		messagesRef.on('value', function(snapshot){
 		  var messagesData = snapshot.val(); // .val() returns to us the raw data object from snapshot
+      // var messagesId = snapshot.key();
 
-			that.chatLog = []; // if we had prior data, clear it so we don't get repeats. You can try removing this line to see what happens.
 
 			// Loop through each obj in messagesData and push each message object into our that.chatLog array
 			for (key in messagesData) {
@@ -31,16 +39,43 @@
 			}
 
 			that.update(); // Manually kick-off the tag update after we get any fresh changed data.
+      console.log(snapshot.key)
 		});
+
+	  /*messagesRef.on('remove_child', function(snapshot) {
+			var messagesData = snapshot.val();
+			var messagesId=snapshot.key();
+			var deleteData;
+			if (var i=0; i< that.chatLog.length; i++) {
+				if (that.chatLog[i].id === messagesId){
+						target=that.chatLog[i];
+						break
+				}
+			}
+			var index = that.chatLog.indexOf(deleteData);
+			that.chatLog.splice(index,1);
+			that.update();
+
+		})
+		*/
 
 		sendMsg(e) {
 			if (e.type == "keypress" && e.key !== "Enter") {
 				e.preventUpdate = true; // Prevents riot from auto update.
 				return false; // Short-circuits function (function exits here, does not continue.)
 			}
-
+			// get date in
+			var d=new Date().toUTCString();
+      //sorry it's not in Riot way
+			var genderVal=document.querySelector('input[name="genderInput"]:checked').value;
 			var msg = {
-				message: this.refs.messageInput.value
+				//id:messagesId,
+				message: this.refs.messageInput.value,
+				name: this.refs.nameInput.value,
+				gender:genderVal,
+				time:d,
+				like:0,
+				dislike:0
 			};
 
 			/***
@@ -64,12 +99,17 @@
 			***/
 
 			this.clearInput();
+			console.log(messagesRef.id);
 		}
 
 		clearInput(e) {
 			this.refs.messageInput.value = "";
+			this.refs.nameInput.value="";
 			this.refs.messageInput.focus();
+			this.refs.nameInput.value="";
 		}
+
+
 	</script>
 
 	<style>
