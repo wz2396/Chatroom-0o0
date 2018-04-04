@@ -6,8 +6,9 @@
 		<!-- Messages go here: -->
 		<message each={ msg in chatLog }></message>
 	</div>
-  <input type="text" ref="nameInput" onkeypress={ sendMsg } placeholder="Enter Name">
-		<div>
+	<div class=" sendMsg row">
+
+		<div class="gender">
 			<label>
 				Male
 				<input type="radio" name="genderInput" value="male">
@@ -16,9 +17,16 @@
 				Female
 				<input type="radio" name="genderInput" value="female">
 	</div>
+	<div class="col-2">
+<input type="text" ref="nameInput" onkeypress={ sendMsg } placeholder="Enter Name">
+</div>
+	<div class="col-4">
 	<input type="text" ref="messageInput" onkeypress={ sendMsg } placeholder="Enter Message">
+	</div>
+	<div class="col-2">
 	<button type="button" onclick={ sendMsg }>SEND</button>
-
+</div>
+</div>
 	<script>
 		var that = this;
 
