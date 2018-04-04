@@ -39,12 +39,11 @@
 			}
 
 			that.update(); // Manually kick-off the tag update after we get any fresh changed data.
-      console.log(snapshot.key)
 		});
 
 	  /*messagesRef.on('remove_child', function(snapshot) {
 			var messagesData = snapshot.val();
-			var messagesId=snapshot.key();
+		//var messagesId=snapshot.key();
 			var deleteData;
 			if (var i=0; i< that.chatLog.length; i++) {
 				if (that.chatLog[i].id === messagesId){
@@ -57,19 +56,22 @@
 			that.update();
 
 		})
-		*/
+*/
 
 		sendMsg(e) {
 			if (e.type == "keypress" && e.key !== "Enter") {
 				e.preventUpdate = true; // Prevents riot from auto update.
 				return false; // Short-circuits function (function exits here, does not continue.)
 			}
+			//get id
+			var messagesId=messagesRef.push().key;
+			//console.log(messagesId);
 			// get date in
 			var d=new Date().toUTCString();
       //sorry it's not in Riot way
 			var genderVal=document.querySelector('input[name="genderInput"]:checked').value;
 			var msg = {
-				//id:messagesId,
+				id:messagesId,
 				message: this.refs.messageInput.value,
 				name: this.refs.nameInput.value,
 				gender:genderVal,
@@ -99,7 +101,6 @@
 			***/
 
 			this.clearInput();
-			console.log(messagesRef.id);
 		}
 
 		clearInput(e) {

@@ -4,10 +4,10 @@
 	<span>{ msg.gender }</span>
 	<span>{ msg.time }</span>
 	<span>
-	<i class="fa fa-thumbs-o-down" onclick={ thumbsDown }></i>{ msg.dislike }
+	<i class="fa fa-thumbs-down" onclick={ thumbsDown }></i>{ msg.dislike }
 </span>
 <span>
-	<i class="fa fa-thumbs-o-up" onclick={ thumbsUp }></i> { msg.like }
+	<i class="fa fa-thumbs-up" onclick={ thumbsUp }></i> { msg.like }
 </span>
 <span>
 	<i class="far fa-trash-alt" onclick={ deleteMsg }></i>
@@ -15,16 +15,27 @@
 
 	<script>
 		var that = this;
-		var times=0;
+	//	var times=0;
+  //get id
+
 		thumbsUp(e) {
-			
+      var id=this.msg.id;
+			var newClick=this.msg.like++;
+      console.log(newClick);
+      messagesRef.child(id).child('like').set(newClick);
 		}
 		thumbsDown(e) {
-			times++;
-			msg.like=times;
-			messagesRef.push(msg);
+      var id=this.msg.id;
+      var newClick=this.msg.dislike++;
+      console.log(newClick);
+			messagesRef.child(id).child('dislike').set(newClick);
 		};
-
+//how to prevent double click
+    deleteMsg(e) {
+      var id=this.msg.id;
+      messagesRef.child(id).set(null);
+      this.update();
+    }
 	</script>
 
 	<style>
